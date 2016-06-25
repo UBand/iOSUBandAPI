@@ -1,0 +1,6 @@
+framework module iOSUbandAPI {
+  umbrella header "iOSUbandAPI-umbrella.h"
+
+  export *
+  module * { export * }
+}

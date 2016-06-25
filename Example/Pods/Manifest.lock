@@ -1,0 +1,16 @@
+PODS:
+  - iOSUbandAPI (0.1.0)
+
+DEPENDENCIES:
+  - iOSUbandAPI (from `../`)
+
+EXTERNAL SOURCES:
+  iOSUbandAPI:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  iOSUbandAPI: c79a893c951cfc49b4acb858e3f96d14d00fe0e1
+
+PODFILE CHECKSUM: 54604a9c2d78a84de7e5d4424143a853969fc2b6
+
+COCOAPODS: 1.0.1

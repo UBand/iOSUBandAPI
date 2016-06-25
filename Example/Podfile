@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'iOSUbandAPI_Example' do
+  pod 'iOSUbandAPI', :path => '../'
+
+  target 'iOSUbandAPI_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end

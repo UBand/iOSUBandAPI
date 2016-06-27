@@ -57,7 +57,7 @@ public class UBandAPI{
         //Other logic related to heart rate
     }
     
-    func setBatteryLevelData(obtainedBatteryLevel: Float){
+    func setBatteryLevelData(obtainedBatteryLevel: Int){
         delegate?.didReceiveBatteryLevelData(self, batteryLevel: obtainedBatteryLevel)
         //Other logic related to heart rate
     }

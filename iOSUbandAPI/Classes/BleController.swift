@@ -139,7 +139,8 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                 self.ubandApi.setTemperatureData(temperature)
             
             case CBUUID(string: UBandService.DataChar.Battery.rawValue):
-                 print("Not implemented yet")
+                 let batteryLevel = SensorTag.getBatteryData(characteristic.value!)
+                 self.ubandApi.setBatteryLevelData(batteryLevel)
             
             case CBUUID(string: UBandService.DataChar.Accelerometer.rawValue):
                 let allValues = SensorTag.getAccelerometerData(characteristic.value!)

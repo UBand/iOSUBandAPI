@@ -19,7 +19,7 @@ public protocol UBandAPIDelegate:class{
     func didReceiveHeartRateData(uBand: UBandAPI, heartRate:UInt)
     func didReceiveGyroscopeData(uBand: UBandAPI, x:Float,y:Float,z:Float)
     func didReceiveTemperatureData(uBand: UBandAPI,temperature:Float)
-    func didReceiveBatteryLevelData(uBand: UBandAPI,batteryLevel:Float)
+    func didReceiveBatteryLevelData(uBand: UBandAPI,batteryLevel:Int)
     func didReceiveAccelerometerData(uBand: UBandAPI,x:Float,y:Float,z:Float)
     func didReceiveSweatingData(uBand: UBandAPI,value:Float)
 }

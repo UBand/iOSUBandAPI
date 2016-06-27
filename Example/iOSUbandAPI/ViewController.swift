@@ -49,7 +49,7 @@ class ViewController: UIViewController, UBandAPIDelegate {
         // do something uBand developer
     }
     
-    func didReceiveBatteryLevelData(uBand: UBandAPI, batteryLevel: Float) {
+    func didReceiveBatteryLevelData(uBand: UBandAPI, batteryLevel: Int) {
         // do something uBand developer
     }
     

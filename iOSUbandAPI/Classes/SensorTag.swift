@@ -35,6 +35,7 @@ let GyroscopeDataUUID       = CBUUID(string: "F000AA51-0451-4000-B000-0000000000
 let GyroscopeConfigUUID     = CBUUID(string: "F000AA52-0451-4000-B000-000000000000")
 
 
+
 class SensorTag {
     
     // Check name of device from advertisement data

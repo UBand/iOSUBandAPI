@@ -23,6 +23,11 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         self.ubandApi = ubandApi
     }
     
+    func connectToUbandPeripheral(uband:CBPeripheral){
+        self.uband = uband
+        central.connectPeripheral(uband, options: nil)
+    }
+    
     func centralManagerDidUpdateState(central: CBCentralManager) {
         if central.state != .PoweredOn {
             return
@@ -33,12 +38,13 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print(peripheral.name)
         if let _ = peripheral.name {
-            if(peripheral.name == DEVICE_NAME){
+            if (peripheral.name?.rangeOfString("^U-Band.*",options: .RegularExpressionSearch)) != nil{
                 print("Found")
                 print(peripheral.description)
-                self.uband = peripheral
-                
-                central.connectPeripheral(uband, options: nil)
+                print(peripheral.identifier) // identifier is a UUID that iOS computes from the MAC
+                ubandApi.addDiscoveredUBandPeripheral(peripheral)
+                //self.uband = peripheral
+                //central.connectPeripheral(uband, options: nil)
             }
         }
     }

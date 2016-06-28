@@ -9,29 +9,30 @@
 
 import Foundation
 import UIKit
+import CoreBluetooth
 
 public class UBandAPI{
     weak var delegate:UBandAPIDelegate?
     private var _bleController : BleController!
-    //let bleController = BleController()
     
     var temperatureUnit:TemperatureUnit?
-    var isRealTimeData:Bool?
-    var intervalTimeData:Int?
+    var selectedUBand:CBPeripheral?
+    var uBandPeripherals:[CBPeripheral]=[]
     
     var bleController:BleController{
         return _bleController
     }
     
     init(){
-        self.temperatureUnit = delegate?.preferredTemperatureUnit(self)
-        self.isRealTimeData = delegate?.isRealTimeData(self)
-        self.intervalTimeData = delegate?.preferredIntervalTimeData(self)
         
+        self._bleController = BleController(ubandApi: self)
+        
+        self.temperatureUnit = delegate?.preferredTemperatureUnit(self)
         
         //Set up the uband api with the preferred specified settings
-        self._bleController = BleController(ubandApi: self)
+
     }
+   
     
     func setHeartRateData(obtainedHeartRate: UInt){
         delegate?.didReceiveHeartRateData(self, heartRate: obtainedHeartRate)
@@ -66,10 +67,26 @@ public class UBandAPI{
         delegate?.didReceiveAccelerometerData(self, x: x, y: y, z: z)
         //Other logic related to heart rate
     }
+    
     func setSweatingData(sweat: Float){
         delegate?.didReceiveSweatingData(self, value: sweat)
         //Other logic related to heart rate
     }
+    
+    func addDiscoveredUBandPeripheral(uband:CBPeripheral)
+    {
+       let keepLooking = delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
+       uBandPeripherals.append(uband)
+        if keepLooking==false{
+            connectToAvailableUBands()
+        }
+    }
+    
+    func connectToAvailableUBands(){
+        self.selectedUBand = delegate?.connectToAvailableUBands(self, availableUBands: uBandPeripherals)
+        self._bleController.connectToUbandPeripheral(selectedUBand!)
+    }
+    
     
     
     

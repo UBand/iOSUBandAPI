@@ -8,20 +8,25 @@
 
 import Foundation
 import UIKit
+import CoreBluetooth
 
 class UBandAPITester: UBandAPIDelegate{
     
+    var myUBand:CBPeripheral!
+
+    
     //Settings
-    func preferredTemperatureUnit(uBand: UBandAPI) -> TemperatureUnit? {
-        return TemperatureUnit.Fahrenheit
+    
+    func didDiscoveredUBandPeripheral(uBand: UBandAPI, uBandPeripheral: CBPeripheral)->Bool? {
+        // do something UBand Developer
+        //return false if wants to stop the scanning and retrieve available ubands to connect
+        return false
     }
     
-    func preferredIntervalTimeData(uBand: UBandAPI) -> Int? {
-        return 0
-    }
     
-    func isRealTimeData(uBand: UBandAPI) -> Bool? {
-        return true
+    func connectToAvailableUBands(uBand: UBandAPI, availableUBands: [CBPeripheral])-> CBPeripheral? {
+        // do something with available UBands
+        return myUBand
     }
     
     

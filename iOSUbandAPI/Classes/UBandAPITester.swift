@@ -19,7 +19,6 @@ class UBandAPITester: UBandAPIDelegate{
     
     func didDiscoveredUBandPeripheral(uBand: UBandAPI, uBandPeripheral: CBPeripheral)->Bool? {
         // do something UBand Developer
-        //return false if wants to stop the scanning and retrieve available ubands to connect
         return false
     }
     

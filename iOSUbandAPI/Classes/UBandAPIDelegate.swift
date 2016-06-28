@@ -17,20 +17,6 @@ public protocol UBandAPIDelegate:class{
     
     //API Settings
     
-    /**
-     
-     Sets the temperature measure unit.
-     
-     
-     
-     - Parameter uBand: An UBandAPI object.
-     
-     - Returns: TemperatureUnit.
-     
-     */
-    
-    //func preferredTemperatureUnit(uBand: UBandAPI) -> TemperatureUnit?
-    
     //API Methods
     
     /**
@@ -67,17 +53,6 @@ public protocol UBandAPIDelegate:class{
      
      */
     func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral) -> Bool?
-    /**
-     
-     Connect to specified peripheral UBand.
-     
-     - Parameter uBand: An UBandAPI object.
-     
-     - Returns: CBPeripheral (UBand) to connect.
-     
-     */
-    
-    //func connectToUBand(uBand:UBandAPI) -> CBPeripheral?
     
     /**
      
@@ -175,9 +150,6 @@ public protocol UBandAPIDelegate:class{
 }
 
 extension UBandAPIDelegate{
-    func preferredTemperatureUnit(uBand: UBandAPI)-> TemperatureUnit?{
-        return TemperatureUnit.Celsius
-    }
     func didReceiveHeartRateData(uBand: UBandAPI, heartRate:UInt){}
     func didReceiveGyroscopeData(uBand: UBandAPI, x:Float,y:Float,z:Float){}
     func didReceiveTemperatureData(uBand: UBandAPI,temperature:Float){}

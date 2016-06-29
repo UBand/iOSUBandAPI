@@ -26,7 +26,6 @@ public class UBandAPI{
     init(){
         
         self._bleController = BleController(ubandApi: self)
-        self.temperatureUnit = TemperatureUnit.Celsius
         
         //Set up the uband api with the preferred specified settings
 

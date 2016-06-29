@@ -13,7 +13,11 @@ import CoreBluetooth
 class UBandAPITester: UBandAPIDelegate{
     
     var myUBand:CBPeripheral!
-
+    var uBand:UBandAPI?
+    
+    init(){
+        uBand?.delegate = self
+    }
     
     //Settings
     

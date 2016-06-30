@@ -27,7 +27,7 @@ enum UBandService{
         case Pulse         = "f000aab1-0451-4000-b000-000000000000"
         case Galvanic      = "f000aaa1-0451-4000-b000-000000000000"
         case Temperature   = "f000aa01-0451-4000-b000-000000000000"
-        case Battery       = "f000aac3-0451-4000-b000-000000000000"
+        case Battery       = "f000aac1-0451-4000-b000-000000000000"
     }
     
     enum ConfigChar:String{

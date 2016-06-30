@@ -72,7 +72,13 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         for service in peripheral.services! {
             print(service.UUID)
-            if (service.UUID == CBUUID(string: UBandService.Service.Accelerometer.rawValue) || service.UUID == CBUUID(string: UBandService.Service.Pulse.rawValue)){
+            if (service.UUID == CBUUID(string: UBandService.Service.Accelerometer.rawValue) ||
+                service.UUID == CBUUID(string: UBandService.Service.Pulse.rawValue) ||
+                service.UUID == CBUUID(string: UBandService.Service.Gyroscope.rawValue) ||
+                service.UUID == CBUUID(string: UBandService.Service.Temperature.rawValue) ||
+                service.UUID == CBUUID(string: UBandService.Service.Battery.rawValue) ||
+                service.UUID == CBUUID(string: UBandService.Service.Galvanic.rawValue)
+                ){
                 print("Looking for characteristics")
                 self.uband.discoverCharacteristics(nil, forService: service as CBService)
             }
@@ -86,24 +92,36 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                  validateCharacteristicsForService(service.characteristics!,
                                                    characteristicConfigChar: UBandService.ConfigChar.Accelerometer,
                                                    characteristicDataChar: UBandService.DataChar.Accelerometer)
+                 break;
+            case CBUUID(string: UBandService.Service.Gyroscope.rawValue):
+                 validateCharacteristicsForService(service.characteristics!,
+                                                   characteristicConfigChar: UBandService.ConfigChar.Gyroscope,
+                                                   characteristicDataChar: UBandService.DataChar.Gyroscope)
+                 break;
             
             case CBUUID(string: UBandService.Service.Pulse.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
                                                    characteristicConfigChar: UBandService.ConfigChar.Pulse,
                                                    characteristicDataChar: UBandService.DataChar.Pulse)
+                 break;
             
             case CBUUID(string: UBandService.Service.Temperature.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
                                                   characteristicConfigChar: UBandService.ConfigChar.Gyroscope,
                                                   characteristicDataChar: UBandService.DataChar.Gyroscope)
+                 break;
             
             case CBUUID(string: UBandService.Service.Battery.rawValue):
-                 print("Not implemented yet")
+                validateCharacteristicsForService(service.characteristics!,
+                                                  characteristicConfigChar: UBandService.ConfigChar.Battery,
+                                                  characteristicDataChar: UBandService.DataChar.Battery)
+                break;
             
             case CBUUID(string: UBandService.Service.Galvanic.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
                                                   characteristicConfigChar: UBandService.ConfigChar.Galvanic,
                                                   characteristicDataChar: UBandService.DataChar.Galvanic)
+                 break;
             
             default:
                  print("None valid service")
@@ -126,6 +144,7 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         print("DATA: @", characteristic.value)
+        print("UUID: ", characteristic.UUID.UUIDString)
         switch characteristic.UUID{
             
             case CBUUID(string: UBandService.DataChar.Pulse.rawValue):

@@ -190,8 +190,10 @@ class SensorTag {
     // Get Relative Humidity
     class func getRelativeHumidity(value: NSData) -> Double {
         //let dataFromSensor = dataToUnsignedBytes16(value)
+        print("Humidity")
+        print(value)
         let dataFromSensor = dataToSignedBytes8(value)
-        let humidity = -6 + 125/65536 * Double(dataFromSensor[1])
+        let humidity = -6 + 125/65536 * Double(dataFromSensor[0])
         return humidity
     }
     
@@ -207,6 +209,7 @@ class SensorTag {
     // Get gyroscope values
     class func getGyroscopeData(value: NSData) -> [Double] {
         //let dataFromSensor = dataToSignedBytes16(value)
+        print("getGyroscopeData")
         let dataFromSensor = dataToSignedBytes8(value)
         let yVal = Double(dataFromSensor[0]) * 500 / 65536 * -1
         let xVal = Double(dataFromSensor[1]) * 500 / 65536

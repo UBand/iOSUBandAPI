@@ -135,14 +135,6 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		5AF72CF5D01113EF7DEADCD65F360EBD /* iOSUbandAPI */ = {
-			isa = PBXGroup;
-			children = (
-				E9E14BC637A78CADA52138CBDB0EDF5B /* Classes */,
-			);
-			path = iOSUbandAPI;
-			sourceTree = "<group>";
-		};
 		6115D7C1FD5738EA72E2B0559837F985 /* Development Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,7 +203,7 @@
 		B8763E6B1673364272C6BA54FCEBA006 /* iOSUbandAPI */ = {
 			isa = PBXGroup;
 			children = (
-				5AF72CF5D01113EF7DEADCD65F360EBD /* iOSUbandAPI */,
+				E9E14BC637A78CADA52138CBDB0EDF5B /* Classes */,
 				3023B1FEA476DC11DE9E12750403EEE2 /* Support Files */,
 			);
 			name = iOSUbandAPI;
@@ -237,7 +229,8 @@
 				9C2C51C41D249F5B005CC9D9 /* UBandAPITester.swift */,
 				9C2C51C51D249F5B005CC9D9 /* UBandService.swift */,
 			);
-			path = Classes;
+			name = Classes;
+			path = iOSUbandAPI/Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

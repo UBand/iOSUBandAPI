@@ -12,7 +12,7 @@ import UIKit
 import CoreBluetooth
 
 public class UBandAPI{
-    weak var delegate:UBandAPIDelegate?
+    public weak var delegate:UBandAPIDelegate?
     private var _bleController : BleController!
     
     var temperatureUnit:TemperatureUnit?
@@ -23,7 +23,7 @@ public class UBandAPI{
         return _bleController
     }
     
-    init(){
+    public init(){
         
         self._bleController = BleController(ubandApi: self)
         

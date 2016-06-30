@@ -12,7 +12,8 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     var central : CBCentralManager!
     var uband : CBPeripheral!
-    var bpm:[UInt] = [0,0]
+    //var bpm:[UInt] = [0,0]
+    var bpm:UInt = 0
     var ubandApi : UBandAPI!
     
     let DEVICE_NAME = "U-Band"
@@ -149,7 +150,9 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             
             case CBUUID(string: UBandService.DataChar.Pulse.rawValue):
                 self.bpm = SensorTag.getPulseData(characteristic.value!)
-                self.ubandApi.setHeartRateData(self.bpm[0])
+                if self.bpm > 0 {
+                    self.ubandApi.setHeartRateData(self.bpm)
+                }
             
             case CBUUID(string: UBandService.DataChar.Gyroscope.rawValue):
                  let allValues = SensorTag.getGyroscopeData(characteristic.value!)

@@ -12,7 +12,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     var central : CBCentralManager!
     var uband : CBPeripheral!
-    //var bpm:[UInt] = [0,0]
     var bpm:UInt = 0
     var ubandApi : UBandAPI!
     
@@ -108,8 +107,8 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
             
             case CBUUID(string: UBandService.Service.Temperature.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
-                                                  characteristicConfigChar: UBandService.ConfigChar.Gyroscope,
-                                                  characteristicDataChar: UBandService.DataChar.Gyroscope)
+                                                  characteristicConfigChar: UBandService.ConfigChar.Temperature,
+                                                  characteristicDataChar: UBandService.DataChar.Temperature)
                  break;
             
             case CBUUID(string: UBandService.Service.Battery.rawValue):

@@ -38,13 +38,8 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print(peripheral.name)
         if let _ = peripheral.name {
-            if (peripheral.name?.rangeOfString("^U.*",options: .RegularExpressionSearch)) != nil{
-                //print("Found")
-                //print(peripheral.description)
-                //print(peripheral.identifier) // identifier is a UUID that iOS computes from the MAC
+            if (peripheral.name?.rangeOfString("^U-Band.*",options: .RegularExpressionSearch)) != nil{
                 ubandApi.addDiscoveredUBandPeripheral(peripheral)
-                //self.uband = peripheral
-                //central.connectPeripheral(uband, options: nil)
             }
         }
     }
@@ -72,7 +67,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         for service in peripheral.services! {
-            //print(service.UUID)
             if (service.UUID == CBUUID(string: UBandService.Service.Accelerometer.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Pulse.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Gyroscope.rawValue) ||
@@ -143,8 +137,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        //print("DATA: @", characteristic.value)
-        //print("UUID: ", characteristic.UUID.UUIDString)
         switch characteristic.UUID{
             
             case CBUUID(string: UBandService.DataChar.Pulse.rawValue):

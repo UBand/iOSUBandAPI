@@ -13,6 +13,7 @@ import CoreBluetooth
 
 public class UBandAPI{
     public weak var delegate:UBandAPIDelegate?
+    public var uBandName:String?
     private var _bleController : BleController!
     
     var temperatureUnit:TemperatureUnit?
@@ -31,7 +32,6 @@ public class UBandAPI{
         //Set up the uband api with the preferred specified settings
 
     }
-   
     
     func setHeartRateData(obtainedHeartRate: UInt){
         delegate?.didReceiveHeartRateData(self, heartRate: obtainedHeartRate)
@@ -74,17 +74,36 @@ public class UBandAPI{
     
     func addDiscoveredUBandPeripheral(uband:CBPeripheral)
     {
-       let keepLooking = delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
+       //let keepLooking = delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
+       delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
+
        uBandPeripherals.append(uband)
-        if keepLooking==false{
-            connectToAvailableUBands()
-        }
+       // if keepLooking==false{
+       //     connectToAvailableUBands()
+       // }
     }
     
-    func connectToAvailableUBands(){
-        self.selectedUBand = delegate?.connectToAvailableUBands(self, availableUBands: uBandPeripherals)
+    func notifyPeripheralConnectionStatus(success:Bool,error:NSError?){
+        if(success){
+            let uuid = selectedUBand!.identifier.UUIDString
+            self.uBandName = (selectedUBand?.name)! + String(uuid.characters.suffix(4))
+        }
+        delegate?.didReceiveConnectionStatus(self,success: success,error:error)
+    }
+    
+    func notifyUBandDisconnected(){
+        delegate?.didDisconnectUBand(self)
+    }
+    
+    public func connectToUBand(uBand:CBPeripheral){
+        self.selectedUBand = uBand
         self._bleController.connectToUbandPeripheral(selectedUBand!)
     }
+    
+    //func connectToAvailableUBands(){
+    //    self.selectedUBand = delegate?.connectToAvailableUBands(self, availableUBands: uBandPeripherals)
+    //    self._bleController.connectToUbandPeripheral(selectedUBand!)
+    //}
     
     
     

@@ -38,10 +38,10 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         print(peripheral.name)
         if let _ = peripheral.name {
-            if (peripheral.name?.rangeOfString("^U-Band.*",options: .RegularExpressionSearch)) != nil{
-                print("Found")
-                print(peripheral.description)
-                print(peripheral.identifier) // identifier is a UUID that iOS computes from the MAC
+            if (peripheral.name?.rangeOfString("^U.*",options: .RegularExpressionSearch)) != nil{
+                //print("Found")
+                //print(peripheral.description)
+                //print(peripheral.identifier) // identifier is a UUID that iOS computes from the MAC
                 ubandApi.addDiscoveredUBandPeripheral(peripheral)
                 //self.uband = peripheral
                 //central.connectPeripheral(uband, options: nil)
@@ -50,28 +50,29 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     func centralManager(central: CBCentralManager, didConnectPeripheral peripheral: CBPeripheral) {
-        print("Connected")
         uband.delegate = self
         uband.discoverServices(nil)
+        ubandApi.notifyPeripheralConnectionStatus(true,error: nil)
     }
     
     func centralManager(central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print("Disconnected")
+        ubandApi.notifyUBandDisconnected()
     }
     
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
-        print(error)
+        //print(error)
+        ubandApi.notifyPeripheralConnectionStatus(false,error:error)
     }
     
     func centralManager(central: CBCentralManager!, didRetrieveConnectedPeripherals peripherals: [AnyObject]!) {
         for peripheral in peripherals{
-            print(peripheral.description)
+            //print(peripheral.description)
         }
     }
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         for service in peripheral.services! {
-            print(service.UUID)
+            //print(service.UUID)
             if (service.UUID == CBUUID(string: UBandService.Service.Accelerometer.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Pulse.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Gyroscope.rawValue) ||
@@ -79,7 +80,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                 service.UUID == CBUUID(string: UBandService.Service.Battery.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Galvanic.rawValue)
                 ){
-                print("Looking for characteristics")
                 self.uband.discoverCharacteristics(nil, forService: service as CBService)
             }
         }
@@ -123,16 +123,16 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                                                   characteristicDataChar: UBandService.DataChar.Galvanic)
                  break;
             
-            default:
-                 print("None valid service")
+            default: break
+                 //print("None valid service")
         }
     }
     
     func validateCharacteristicsForService(characteristics:[CBCharacteristic],characteristicConfigChar:UBandService.ConfigChar,characteristicDataChar:UBandService.DataChar){
         for characteristic in characteristics {
-            print(characteristic)
+            //print(characteristic)
             if characteristic.UUID == CBUUID(string: characteristicConfigChar.rawValue){
-                print("Receive Values Activated")
+                //print("Receive Values Activated")
                 //                TODO: Error
                 //                self.uband.writeValue(NSData(bytes: [0x01], length: 1), forCharacteristic: characteristic, type: CBCharacteristicWriteType.WithResponse)
                 self.uband.writeValue(NSData(bytes: "\u{1}", length: 1), forCharacteristic: characteristic, type: CBCharacteristicWriteType.WithResponse)
@@ -143,8 +143,8 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        print("DATA: @", characteristic.value)
-        print("UUID: ", characteristic.UUID.UUIDString)
+        //print("DATA: @", characteristic.value)
+        //print("UUID: ", characteristic.UUID.UUIDString)
         switch characteristic.UUID{
             
             case CBUUID(string: UBandService.DataChar.Pulse.rawValue):
@@ -180,14 +180,14 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                 let sweat = Float(SensorTag.getRelativeHumidity(characteristic.value!))
                 self.ubandApi.setSweatingData(sweat)
             
-            default:
-                print("None valid characteristic")
+            default:break
+                //print("None valid characteristic")
         }
     }
     
     func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        print("Updated")
-        print(error)
+        //print("Updated")
+        //print(error)
     }
     
     

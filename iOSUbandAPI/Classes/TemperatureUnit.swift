@@ -6,7 +6,7 @@
 //  Copyright © 2016 Hunabsys. All rights reserved.
 //
 
-public enum TemperatureUnit:Int {
+enum TemperatureUnit:Int {
     case Fahrenheit
     case Celsius
     case Kelvin

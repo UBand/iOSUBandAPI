@@ -156,7 +156,8 @@ class SensorTag {
     // Get ambient temperature value
     class func getAmbientTemperature(value : NSData) -> Double {
         let dataFromSensor = dataToUnsignedBytes8(value)
-        let uInt16Value = UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2])
+        //let uInt16Value = UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2])
+        let uInt16Value = Double(Int16(bitPattern: ((UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2])))))
         let ambientTemperature = (Double(uInt16Value) * 0.3125)/10
         return ambientTemperature
     }
@@ -190,23 +191,19 @@ class SensorTag {
     // Get Accelerometer values
     class func getAccelerometerData(value: NSData) -> [Double] {
         let dataFromSensor = dataToUnsignedBytes8(value)
-        //let xVal = Double(dataFromSensor[0]) / 64
-        //let yVal = Double(dataFromSensor[1]) / 64
-        //let zVal = Double(dataFromSensor[2]) / 64 * -1
-        let xVal = Double(UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0]))/64
-        let yVal = Double(UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2]))/64
-        let zVal = Double(UInt16(dataFromSensor[5]) << 8 | UInt16(dataFromSensor[4]))/64 * -1
+        print("raw accel:",value)
+        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0])))))
+        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2])))))
+        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[5]) << 8 | UInt16(dataFromSensor[4])))))
         return [xVal, yVal, zVal]
     }
     // Get Pulse values
     class func getPulseData(value: NSData) -> UInt {
         //Source: http://stackoverflow.com/questions/32830866/how-in-swift-to-convert-int16-to-two-uint8-bytes
-        print("raw pulse:",value)
+        //print("raw pulse:",value)
         let dataFromSensor = dataToUnsignedBytes8(value)
-        print("Val 1:",dataFromSensor[0])
-        print("Val 2:",dataFromSensor[1])
         let signal = UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0])
-        print("signal",signal)
+        //print("signal",signal)
 
         self.sampleCounter += 2                           // keep track of the time in mS with this variable
         var N:UInt
@@ -226,10 +223,6 @@ class SensorTag {
         //  NOW IT'S TIME TO LOOK FOR THE HEART BEAT
         // signal surges up in value every time there is a pulse
         if (N > 250){                                     // avoid high frequency noise
-            print("Signal:",signal)
-            print("tresh:",thresh)
-            print("Pulse:",Pulse)
-            print("Raw signal",value)
             if ((UInt(signal) > thresh) && (Pulse == false) && (N > (IBI/5)*3) ){
                 Pulse = true;                                 // set the Pulse flag when we think there is a pulse
                 IBI = UInt(sampleCounter - lastBeatTime)      // measure time between beats in mS
@@ -284,9 +277,6 @@ class SensorTag {
     
     // Get Relative Humidity
     class func getRelativeHumidity(value: NSData) -> Double {
-        //let dataFromSensor = dataToUnsignedBytes16(value)
-        print("Humidity")
-        print(value)
         let dataFromSensor = dataToUnsignedBytes8(value)
         let humidity = -6 + 125/65536 * Double(dataFromSensor[0])
         return humidity
@@ -303,12 +293,7 @@ class SensorTag {
     
     // Get gyroscope values
     class func getGyroscopeData(value: NSData) -> [Double] {
-        //let dataFromSensor = dataToSignedBytes16(value)
-        print("getGyroscopeData")
         let dataFromSensor = dataToUnsignedBytes8(value)
-        //let yVal = Double(dataFromSensor[0]) * 500 / 65536 * -1
-        //let xVal = Double(dataFromSensor[1]) * 500 / 65536
-        //let zVal = Double(dataFromSensor[2]) * 500 / 65536
         
         let xVal = Double(UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0]))
         let yVal = Double(UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2]))/64

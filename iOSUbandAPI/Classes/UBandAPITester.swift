@@ -21,9 +21,9 @@ class UBandAPITester: UBandAPIDelegate{
     
     //Settings
     
-    func didDiscoveredUBandPeripheral(uBand: UBandAPI, uBandPeripheral: CBPeripheral)->Bool? {
+    func didDiscoveredUBandPeripheral(uBand: UBandAPI, uBandPeripheral: CBPeripheral) {
         // do something UBand Developer
-        return false
+        //return false
     }
     
     

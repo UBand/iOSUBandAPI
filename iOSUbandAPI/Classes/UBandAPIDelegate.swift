@@ -32,7 +32,7 @@ public protocol UBandAPIDelegate:class{
      
      */
 
-    func connectToAvailableUBands(uBand: UBandAPI,availableUBands:[CBPeripheral]) -> CBPeripheral?
+    //func connectToAvailableUBands(uBand: UBandAPI,availableUBands:[CBPeripheral]) -> CBPeripheral?
     
     /**
      
@@ -52,7 +52,12 @@ public protocol UBandAPIDelegate:class{
        False: Stop looking to retrive the available uBands
      
      */
-    func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral) -> Bool?
+    
+    func didReceiveConnectionStatus(uBand: UBandAPI,success:Bool,error:NSError?)
+    
+    func didDisconnectUBand(uBand: UBandAPI)
+    
+    func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral)
     
     /**
      
@@ -149,7 +154,10 @@ public protocol UBandAPIDelegate:class{
 
 }
 
-extension UBandAPIDelegate{
+public extension UBandAPIDelegate{
+    func didReceiveConnectionStatus(uBand: UBandAPI,success:Bool,error: NSError?){}
+    func didDisconnectUBand(uBand: UBandAPI){}
+    func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral){}
     func didReceiveHeartRateData(uBand: UBandAPI, heartRate:UInt){}
     func didReceiveGyroscopeData(uBand: UBandAPI, x:Float,y:Float,z:Float){}
     func didReceiveTemperatureData(uBand: UBandAPI,temperature:Float){}

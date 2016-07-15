@@ -10,13 +10,13 @@
 		574AD89BFAB09FD654F076F41719A128 /* Pods-iOSUbandAPI_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 95E7C0418A435102528DD9B07E1C1057 /* Pods-iOSUbandAPI_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		731FBBC4A51B18F1F24BB078615731E3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		83AB622B1EB078BAEF80A0616906EB2E /* Pods-iOSUbandAPI_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C422386C9473F42A9D915A0ABC1356F /* Pods-iOSUbandAPI_Example-dummy.m */; };
-		9CE033751D25988000E59414 /* TemperatureUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE0336E1D25988000E59414 /* TemperatureUnit.swift */; };
-		9CE033791D25988000E59414 /* UBandService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE033721D25988000E59414 /* UBandService.swift */; };
-		9CE765A71D272AAA00CFC3DB /* BleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE765A21D272AAA00CFC3DB /* BleController.swift */; };
-		9CE765A81D272AAA00CFC3DB /* SensorTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE765A31D272AAA00CFC3DB /* SensorTag.swift */; };
-		9CE765A91D272AAA00CFC3DB /* UBandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE765A41D272AAA00CFC3DB /* UBandAPI.swift */; };
-		9CE765AA1D272AAA00CFC3DB /* UBandAPIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE765A51D272AAA00CFC3DB /* UBandAPIDelegate.swift */; };
-		9CE765AB1D272AAA00CFC3DB /* UBandAPITester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE765A61D272AAA00CFC3DB /* UBandAPITester.swift */; };
+		9CF236761D396FEF007D9755 /* BleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF2366F1D396FEF007D9755 /* BleController.swift */; };
+		9CF236771D396FEF007D9755 /* SensorTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236701D396FEF007D9755 /* SensorTag.swift */; };
+		9CF236781D396FEF007D9755 /* TemperatureUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236711D396FEF007D9755 /* TemperatureUnit.swift */; };
+		9CF236791D396FEF007D9755 /* UBandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236721D396FEF007D9755 /* UBandAPI.swift */; };
+		9CF2367A1D396FEF007D9755 /* UBandAPIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236731D396FEF007D9755 /* UBandAPIDelegate.swift */; };
+		9CF2367B1D396FEF007D9755 /* UBandAPITester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236741D396FEF007D9755 /* UBandAPITester.swift */; };
+		9CF2367C1D396FEF007D9755 /* UBandService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF236751D396FEF007D9755 /* UBandService.swift */; };
 		9F63354F03C3F3D039543733E2A6ECCC /* iOSUbandAPI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EAA4F7BCFF5AE8C824401A7BD87D0682 /* iOSUbandAPI-dummy.m */; };
 		B18ACC60BD1D519C29ADDF13EFE32FCD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		D5DA51B9AA3B4FACB641946E8A5DEC39 /* iOSUbandAPI-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D1353AA50153561B2DEA563C937403D3 /* iOSUbandAPI-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -50,13 +50,13 @@
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		95E7C0418A435102528DD9B07E1C1057 /* Pods-iOSUbandAPI_Tests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-iOSUbandAPI_Tests-umbrella.h"; sourceTree = "<group>"; };
 		984C282A762DBF2AA7ECD27CA57CDC21 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9CE0336E1D25988000E59414 /* TemperatureUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureUnit.swift; sourceTree = "<group>"; };
-		9CE033721D25988000E59414 /* UBandService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandService.swift; sourceTree = "<group>"; };
-		9CE765A21D272AAA00CFC3DB /* BleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleController.swift; sourceTree = "<group>"; };
-		9CE765A31D272AAA00CFC3DB /* SensorTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorTag.swift; sourceTree = "<group>"; };
-		9CE765A41D272AAA00CFC3DB /* UBandAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPI.swift; sourceTree = "<group>"; };
-		9CE765A51D272AAA00CFC3DB /* UBandAPIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPIDelegate.swift; sourceTree = "<group>"; };
-		9CE765A61D272AAA00CFC3DB /* UBandAPITester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPITester.swift; sourceTree = "<group>"; };
+		9CF2366F1D396FEF007D9755 /* BleController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BleController.swift; sourceTree = "<group>"; };
+		9CF236701D396FEF007D9755 /* SensorTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SensorTag.swift; sourceTree = "<group>"; };
+		9CF236711D396FEF007D9755 /* TemperatureUnit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemperatureUnit.swift; sourceTree = "<group>"; };
+		9CF236721D396FEF007D9755 /* UBandAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPI.swift; sourceTree = "<group>"; };
+		9CF236731D396FEF007D9755 /* UBandAPIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPIDelegate.swift; sourceTree = "<group>"; };
+		9CF236741D396FEF007D9755 /* UBandAPITester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandAPITester.swift; sourceTree = "<group>"; };
+		9CF236751D396FEF007D9755 /* UBandService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UBandService.swift; sourceTree = "<group>"; };
 		9EFAD13E37FD5BB328E90931A8F67572 /* iOSUbandAPI.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = iOSUbandAPI.xcconfig; sourceTree = "<group>"; };
 		A888EFA1D8F625EC197DE3A3D7240122 /* Pods-iOSUbandAPI_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-iOSUbandAPI_Tests-dummy.m"; sourceTree = "<group>"; };
 		B0944FCE056F1D1B239B9EC328CA855E /* Pods-iOSUbandAPI_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-iOSUbandAPI_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -229,13 +229,13 @@
 		E9E14BC637A78CADA52138CBDB0EDF5B /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				9CE765A21D272AAA00CFC3DB /* BleController.swift */,
-				9CE765A31D272AAA00CFC3DB /* SensorTag.swift */,
-				9CE765A41D272AAA00CFC3DB /* UBandAPI.swift */,
-				9CE765A51D272AAA00CFC3DB /* UBandAPIDelegate.swift */,
-				9CE765A61D272AAA00CFC3DB /* UBandAPITester.swift */,
-				9CE0336E1D25988000E59414 /* TemperatureUnit.swift */,
-				9CE033721D25988000E59414 /* UBandService.swift */,
+				9CF2366F1D396FEF007D9755 /* BleController.swift */,
+				9CF236701D396FEF007D9755 /* SensorTag.swift */,
+				9CF236711D396FEF007D9755 /* TemperatureUnit.swift */,
+				9CF236721D396FEF007D9755 /* UBandAPI.swift */,
+				9CF236731D396FEF007D9755 /* UBandAPIDelegate.swift */,
+				9CF236741D396FEF007D9755 /* UBandAPITester.swift */,
+				9CF236751D396FEF007D9755 /* UBandService.swift */,
 			);
 			name = Classes;
 			path = iOSUbandAPI/Classes;
@@ -372,14 +372,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CE765A81D272AAA00CFC3DB /* SensorTag.swift in Sources */,
-				9CE033791D25988000E59414 /* UBandService.swift in Sources */,
-				9CE765AB1D272AAA00CFC3DB /* UBandAPITester.swift in Sources */,
-				9CE765AA1D272AAA00CFC3DB /* UBandAPIDelegate.swift in Sources */,
-				9CE765A71D272AAA00CFC3DB /* BleController.swift in Sources */,
-				9CE765A91D272AAA00CFC3DB /* UBandAPI.swift in Sources */,
+				9CF2367C1D396FEF007D9755 /* UBandService.swift in Sources */,
 				9F63354F03C3F3D039543733E2A6ECCC /* iOSUbandAPI-dummy.m in Sources */,
-				9CE033751D25988000E59414 /* TemperatureUnit.swift in Sources */,
+				9CF236771D396FEF007D9755 /* SensorTag.swift in Sources */,
+				9CF2367A1D396FEF007D9755 /* UBandAPIDelegate.swift in Sources */,
+				9CF2367B1D396FEF007D9755 /* UBandAPITester.swift in Sources */,
+				9CF236791D396FEF007D9755 /* UBandAPI.swift in Sources */,
+				9CF236781D396FEF007D9755 /* TemperatureUnit.swift in Sources */,
+				9CF236761D396FEF007D9755 /* BleController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

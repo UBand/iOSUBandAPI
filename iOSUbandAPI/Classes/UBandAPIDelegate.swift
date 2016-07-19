@@ -19,43 +19,46 @@ public protocol UBandAPIDelegate:class{
     
     //API Methods
     
-    /**
-     
-     List all the available UBands to connect
-     
-     
-     - Parameter uBand: An UBandAPI object.
-     
-     - Parameter availableUBands: An array of CBPeripheral containing all the available UBands
-     
-     - Returns: CBPeripheral
-     
-     */
-
-    //func connectToAvailableUBands(uBand: UBandAPI,availableUBands:[CBPeripheral]) -> CBPeripheral?
     
     /**
      
-     Method to show when a new UBand peripheral was discovered
+     Method to process the connection status after trying to connect to a U-Band.
+     
      
      
      - Parameter uBand: An UBandAPI object.
      
-     - Parameter uBandPeripheral: The discovered uBand
+     - Parameter success: Returns true if there was an error.
      
-     - Returns: Bool. 
-     
-       It indicates if the user wants to keep looking for uBands.
-     
-       True: Keep looking.
-     
-       False: Stop looking to retrive the available uBands
+     - Parameter error: Returns the error description is there was one.
      
      */
     
     func didReceiveConnectionStatus(uBand: UBandAPI,success:Bool,error:NSError?)
     
+    /**
+     
+     Method to handle an U-Band disconnection.
+     
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     */
+    
     func didDisconnectUBand(uBand: UBandAPI)
+    
+    /**
+     
+     Method to handle a discovered U-Band peripheral.
+     
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     - Parameter uBandPeripheral: The discovered UBand Peripheral
+     
+     */
     
     func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral)
     
@@ -149,9 +152,19 @@ public protocol UBandAPIDelegate:class{
      
      */
     
-
     func didReceiveSweatingData(uBand: UBandAPI,value:Float)
-
+    
+    /**
+     
+     Method to notifiy when there was a new step.
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     */
+    
+    func didRecognizeStep(uBand: UBandAPI)
+    
 }
 
 public extension UBandAPIDelegate{
@@ -164,5 +177,6 @@ public extension UBandAPIDelegate{
     func didReceiveBatteryLevelData(uBand: UBandAPI,batteryLevel:Int){}
     func didReceiveAccelerometerData(uBand: UBandAPI,x:Float,y:Float,z:Float){}
     func didReceiveSweatingData(uBand: UBandAPI,value:Float){}
+    func didRecognizeStep(uBand: UBandAPI){}
 }
 

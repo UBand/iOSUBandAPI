@@ -55,6 +55,13 @@ class SensorTag {
     static var firstBeat:Bool = true               // used to seed rate array so we startup with reasonable BPM
     static var secondBeat:Bool = true              // used to seed rate array so we startup with reasonable BPM
     
+    //MARK: Pedometer Variables, related to accelerometer
+    static var previousY:Double = 0
+    static var currentY:Double = 0
+    static var numSteps:Int = 0
+    static var treshold:Int = 1300
+
+    
     // Check name of device from advertisement data
     class func sensorTagFound (advertisementData: [NSObject : AnyObject]!) -> Bool {
         let nameOfDeviceFound = (advertisementData as NSDictionary).objectForKey(CBAdvertisementDataLocalNameKey) as? NSString
@@ -192,17 +199,17 @@ class SensorTag {
     class func getAccelerometerData(value: NSData) -> [Double] {
         let dataFromSensor = dataToUnsignedBytes8(value)
         print("raw accel:",value)
-        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0])))))
-        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2])))))
-        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[5]) << 8 | UInt16(dataFromSensor[4])))))
+        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])))))
+        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[2]) << 8 | UInt16(dataFromSensor[3])))))
+        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[4]) << 8 | UInt16(dataFromSensor[5])))))
         return [xVal, yVal, zVal]
     }
     // Get Pulse values
     class func getPulseData(value: NSData) -> UInt {
         //Source: http://stackoverflow.com/questions/32830866/how-in-swift-to-convert-int16-to-two-uint8-bytes
-        //print("raw pulse:",value)
+        print("raw pulse:",value)
         let dataFromSensor = dataToUnsignedBytes8(value)
-        let signal = UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0])
+        let signal = UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])
         //print("signal",signal)
 
         self.sampleCounter += 2                           // keep track of the time in mS with this variable
@@ -295,9 +302,10 @@ class SensorTag {
     class func getGyroscopeData(value: NSData) -> [Double] {
         let dataFromSensor = dataToUnsignedBytes8(value)
         
-        let xVal = Double(UInt16(dataFromSensor[1]) << 8 | UInt16(dataFromSensor[0]))
-        let yVal = Double(UInt16(dataFromSensor[3]) << 8 | UInt16(dataFromSensor[2]))/64
-        let zVal = Double(UInt16(dataFromSensor[5]) << 8 | UInt16(dataFromSensor[4]))/64 * -1
+        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])))))
+        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[2]) << 8 | UInt16(dataFromSensor[3])))))
+        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[4]) << 8 | UInt16(dataFromSensor[5])))))
+
         return [xVal, yVal, zVal]
     }
     
@@ -307,4 +315,22 @@ class SensorTag {
         let batteryLevel = 1 * Int(dataFromSensor[0])
         return batteryLevel
     }
+    
+    //Compute the steps
+    class func computeSteps(x:Double,y:Double,z:Double)->Bool{
+        self.currentY = y
+        var flagStep:Bool = false
+        //print("current Y:",currentY)
+        //print("previous Y:",previousY)
+        let absResult = abs(currentY-previousY)
+        //print("absResult:",absResult)
+        if(absResult>Double(treshold)){
+            numSteps++
+            flagStep = true
+            print("STEP")
+        }
+        self.previousY = y
+        return flagStep
+    }
+
 }

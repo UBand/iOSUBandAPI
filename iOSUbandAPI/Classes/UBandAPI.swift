@@ -30,7 +30,7 @@ public class UBandAPI{
         self.temperatureUnit = TemperatureUnit.Celsius
         
         //Set up the uband api with the preferred specified settings
-
+        
     }
     
     func setHeartRateData(obtainedHeartRate: UInt){
@@ -67,6 +67,10 @@ public class UBandAPI{
         //Other logic related to heart rate
     }
     
+    func setNewStep(){
+        delegate?.didRecognizeStep(self)
+    }
+    
     func setSweatingData(sweat: Float){
         delegate?.didReceiveSweatingData(self, value: sweat)
         //Other logic related to heart rate
@@ -74,13 +78,8 @@ public class UBandAPI{
     
     func addDiscoveredUBandPeripheral(uband:CBPeripheral)
     {
-       //let keepLooking = delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
-       delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
-
-       uBandPeripherals.append(uband)
-       // if keepLooking==false{
-       //     connectToAvailableUBands()
-       // }
+        delegate?.didDiscoveredUBandPeripheral(self, uBandPeripheral: uband)
+        uBandPeripherals.append(uband)
     }
     
     func notifyPeripheralConnectionStatus(success:Bool,error:NSError?){

@@ -59,8 +59,7 @@ class SensorTag {
     static var previousY:Double = 0
     static var currentY:Double = 0
     static var numSteps:Int = 0
-    static var treshold:Int = 1300
-
+    static var treshold:Int = 8500
     
     // Check name of device from advertisement data
     class func sensorTagFound (advertisementData: [NSObject : AnyObject]!) -> Bool {
@@ -106,27 +105,6 @@ class SensorTag {
             return false
         }
     }
-    
-    
-    // Get labels of all sensors
-    class func getSensorLabels () -> [String] {
-        let sensorLabels : [String] = [
-            "Ambient Temperature",
-            "Object Temperature",
-            "Accelerometer X",
-            "Accelerometer Y",
-            "Accelerometer Z",
-            "Relative Humidity",
-            "Magnetometer X",
-            "Magnetometer Y",
-            "Magnetometer Z",
-            "Gyroscope X",
-            "Gyroscope Y",
-            "Gyroscope Z"
-        ]
-        return sensorLabels
-    }
-    
     
     
     // Process the values from sensor
@@ -198,16 +176,29 @@ class SensorTag {
     // Get Accelerometer values
     class func getAccelerometerData(value: NSData) -> [Double] {
         let dataFromSensor = dataToUnsignedBytes8(value)
-        print("raw accel:",value)
+        //print("raw accel:",value)
         let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])))))
         let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[2]) << 8 | UInt16(dataFromSensor[3])))))
         let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[4]) << 8 | UInt16(dataFromSensor[5])))))
         return [xVal, yVal, zVal]
     }
+    
+    // Get gyroscope values
+    class func getGyroscopeData(value: NSData) -> [Double] {
+        let dataFromSensor = dataToUnsignedBytes8(value)
+        
+        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[6]) << 8 | UInt16(dataFromSensor[7])))))
+        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[8]) << 8 | UInt16(dataFromSensor[9])))))
+        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[10]) << 8 | UInt16(dataFromSensor[11])))))
+        
+        return [xVal, yVal, zVal]
+    }
+    
+    
     // Get Pulse values
     class func getPulseData(value: NSData) -> UInt {
         //Source: http://stackoverflow.com/questions/32830866/how-in-swift-to-convert-int16-to-two-uint8-bytes
-        print("raw pulse:",value)
+        //print("raw pulse:",value)
         let dataFromSensor = dataToUnsignedBytes8(value)
         let signal = UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])
         //print("signal",signal)
@@ -298,18 +289,6 @@ class SensorTag {
         return [xVal, yVal, zVal]
     }
     
-    // Get gyroscope values
-    class func getGyroscopeData(value: NSData) -> [Double] {
-        let dataFromSensor = dataToUnsignedBytes8(value)
-        
-        let xVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[0]) << 8 | UInt16(dataFromSensor[1])))))
-        let yVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[2]) << 8 | UInt16(dataFromSensor[3])))))
-        let zVal = Double(Int16(bitPattern: ((UInt16(dataFromSensor[4]) << 8 | UInt16(dataFromSensor[5])))))
-
-        return [xVal, yVal, zVal]
-    }
-    
-    
     class func getBatteryData(value: NSData) -> Int {
         let dataFromSensor =  dataToUnsignedBytes8(value)
         let batteryLevel = 1 * Int(dataFromSensor[0])
@@ -325,9 +304,9 @@ class SensorTag {
         let absResult = abs(currentY-previousY)
         //print("absResult:",absResult)
         if(absResult>Double(treshold)){
-            numSteps+=1
+            numSteps++
             flagStep = true
-            print("STEP")
+            //print("STEP")
         }
         self.previousY = y
         return flagStep

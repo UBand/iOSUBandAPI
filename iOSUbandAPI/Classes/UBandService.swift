@@ -11,8 +11,7 @@ import Foundation
 enum UBandService{
     
     enum Service:String{
-        case Accelerometer = "f000aa10-0451-4000-b000-000000000000"
-        case Gyroscope     = "f000aa50-0451-4000-b000-000000000000"
+        case AccelGyro     = "f000aa10-0451-4000-b000-000000000000"
         case Magnetometer  = "f000aa30-0451-4000-b000-000000000000"
         case Pulse         = "f000aab0-0451-4000-b000-000000000000"
         case Galvanic      = "f000aaa0-0451-4000-b000-000000000000"
@@ -21,8 +20,7 @@ enum UBandService{
     }
     
     enum DataChar:String{
-        case Accelerometer = "f000aa11-0451-4000-b000-000000000000"
-        case Gyroscope     = "f000aa51-0451-4000-b000-000000000000"
+        case AccelGyro     = "f000aa11-0451-4000-b000-000000000000"
         case Magnetometer  = "f000aa31-0451-4000-b000-000000000000"
         case Pulse         = "f000aab1-0451-4000-b000-000000000000"
         case Galvanic      = "f000aaa1-0451-4000-b000-000000000000"
@@ -31,8 +29,7 @@ enum UBandService{
     }
     
     enum ConfigChar:String{
-        case Accelerometer = "f000aa12-0451-4000-b000-000000000000"
-        case Gyroscope     = "f000aa52-0451-4000-b000-000000000000"
+        case AccelGyro     = "f000aa12-0451-4000-b000-000000000000"
         case Magnetometer  = "f000aa32-0451-4000-b000-000000000000"
         case Pulse         = "f000aab2-0451-4000-b000-000000000000"
         case Galvanic      = "f000aaa2-0451-4000-b000-000000000000"
@@ -41,8 +38,7 @@ enum UBandService{
     }
     
     enum ConfigPeriod:String{
-        case Accelerometer = "f000aa13-0451-4000-b000-000000000000"
-        case Gyroscope     = "f000aa53-0451-4000-b000-000000000000"
+        case AccelGyro     = "f000aa13-0451-4000-b000-000000000000"
         case Magnetometer  = "f000aa33-0451-4000-b000-000000000000"
         case Pulse         = "f000aab3-0451-4000-b000-000000000000"
         case Galvanic      = "f000aaa3-0451-4000-b000-000000000000"

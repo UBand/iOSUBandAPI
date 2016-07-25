@@ -39,12 +39,7 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         //print(peripheral.name)
         if let _ = peripheral.name {
             if (peripheral.name?.rangeOfString("^U-Band.*",options: .RegularExpressionSearch)) != nil{
-                //print("Found")
-                //print(peripheral.description)
-                //print(peripheral.identifier) // identifier is a UUID that iOS computes from the MAC
-                ubandApi.addDiscoveredUBandPeripheral(peripheral)
-                //self.uband = peripheral
-                //central.connectPeripheral(uband, options: nil)
+                    ubandApi.addDiscoveredUBandPeripheral(peripheral)
             }
         }
     }
@@ -65,14 +60,16 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     func centralManager(central: CBCentralManager!, didRetrieveConnectedPeripherals peripherals: [AnyObject]!) {
+        for peripheral in peripherals{
+            //print(peripheral.description)
+        }
     }
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         for service in peripheral.services! {
             //print(service.UUID)
-            if (service.UUID == CBUUID(string: UBandService.Service.Accelerometer.rawValue) ||
+            if (service.UUID == CBUUID(string: UBandService.Service.AccelGyro.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Pulse.rawValue) ||
-                service.UUID == CBUUID(string: UBandService.Service.Gyroscope.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Temperature.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Battery.rawValue) ||
                 service.UUID == CBUUID(string: UBandService.Service.Galvanic.rawValue)
@@ -85,17 +82,12 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func peripheral(peripheral: CBPeripheral, didDiscoverCharacteristicsForService service: CBService, error: NSError?) {
         switch service.UUID{
             
-            case CBUUID(string: UBandService.Service.Accelerometer.rawValue):
+            case CBUUID(string: UBandService.Service.AccelGyro.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
-                                                   characteristicConfigChar: UBandService.ConfigChar.Accelerometer,
-                                                   characteristicDataChar: UBandService.DataChar.Accelerometer)
+                                                   characteristicConfigChar: UBandService.ConfigChar.AccelGyro,
+                                                   characteristicDataChar: UBandService.DataChar.AccelGyro)
                  break;
-            case CBUUID(string: UBandService.Service.Gyroscope.rawValue):
-                 validateCharacteristicsForService(service.characteristics!,
-                                                   characteristicConfigChar: UBandService.ConfigChar.Gyroscope,
-                                                   characteristicDataChar: UBandService.DataChar.Gyroscope)
-                 break;
-            
+
             case CBUUID(string: UBandService.Service.Pulse.rawValue):
                  validateCharacteristicsForService(service.characteristics!,
                                                    characteristicConfigChar: UBandService.ConfigChar.Pulse,
@@ -139,46 +131,56 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic, error error: NSError?){
+        if error != nil{
+            print("Characteristic error")
+            print(error)
+        }
+    }
+    
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
         //print("DATA: @", characteristic.value)
         //print("UUID: ", characteristic.UUID.UUIDString)
         switch characteristic.UUID{
+           case CBUUID(string: UBandService.DataChar.AccelGyro.rawValue):
+             let accelValues = SensorTag.getAccelerometerData(characteristic.value!)
+             let gyroValues = SensorTag.getGyroscopeData(characteristic.value!)
+             let accelerometerX = accelValues[0]
+             let accelerometerY = accelValues[1]
+             let accelerometerZ = accelValues[2]
+             let gyroX = gyroValues[0]
+             let gyroY = gyroValues[1]
+             let gyroZ = gyroValues[2]
+             if(SensorTag.computeSteps(accelerometerX, y: accelerometerY, z: accelerometerZ)){
+                 self.ubandApi.setNewStep()
+             }
+             self.ubandApi.setAccelerometerData(Float(accelerometerX), y: Float(accelerometerY), z: Float(accelerometerZ))
+             self.ubandApi.setGyroscopeData(Float(gyroX), obtainedY: Float(gyroY), obtainedZ: Float(gyroZ))
+             break
             
-            case CBUUID(string: UBandService.DataChar.Pulse.rawValue):
+             case CBUUID(string: UBandService.DataChar.Pulse.rawValue):
                 self.bpm = SensorTag.getPulseData(characteristic.value!)
                 if self.bpm > 0 {
                     self.ubandApi.setHeartRateData(self.bpm)
                 }
+            break
             
-            case CBUUID(string: UBandService.DataChar.Gyroscope.rawValue):
-                 let allValues = SensorTag.getGyroscopeData(characteristic.value!)
-                 let gyroX = Float(allValues[0])
-                 let gyroY = Float(allValues[1])
-                 let gyroZ = Float(allValues[2])
-                 self.ubandApi.setGyroscopeData(gyroX, obtainedY: gyroY, obtainedZ: gyroZ)
             
             case CBUUID(string: UBandService.DataChar.Temperature.rawValue):
                 let temperature = Float(SensorTag.getAmbientTemperature(characteristic.value!))
                 //let objTemperature = SensorTag.getObjectTemperature(characteristic.value!, ambientTemperature: temperature)
                 self.ubandApi.setTemperatureData(temperature)
-            
+                break
+ 
             case CBUUID(string: UBandService.DataChar.Battery.rawValue):
                  let batteryLevel = SensorTag.getBatteryData(characteristic.value!)
                  self.ubandApi.setBatteryLevelData(batteryLevel)
-            
-            case CBUUID(string: UBandService.DataChar.Accelerometer.rawValue):
-                let allValues = SensorTag.getAccelerometerData(characteristic.value!)
-                let accelerometerX = allValues[0]
-                let accelerometerY = allValues[1]
-                let accelerometerZ = allValues[2]
-                if(SensorTag.computeSteps(accelerometerX, y: accelerometerY, z: accelerometerZ)){
-                    self.ubandApi.setNewStep()
-                }
-                self.ubandApi.setAccelerometerData(Float(accelerometerX), y: Float(accelerometerY), z: Float(accelerometerZ))
+                 break
             
             case CBUUID(string: UBandService.DataChar.Galvanic.rawValue):
                 let sweat = Float(SensorTag.getRelativeHumidity(characteristic.value!))
                 self.ubandApi.setSweatingData(sweat)
+                break
             
             default:break
                 //print("None valid characteristic")

@@ -304,7 +304,7 @@ class SensorTag {
         let absResult = abs(currentY-previousY)
         //print("absResult:",absResult)
         if(absResult>Double(treshold)){
-            numSteps++
+            numSteps+=1
             flagStep = true
             //print("STEP")
         }

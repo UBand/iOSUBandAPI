@@ -59,12 +59,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         ubandApi.notifyPeripheralConnectionStatus(false,error:error)
     }
     
-    func centralManager(central: CBCentralManager!, didRetrieveConnectedPeripherals peripherals: [AnyObject]!) {
-        for peripheral in peripherals{
-            //print(peripheral.description)
-        }
-    }
-    
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
         for service in peripheral.services! {
             //print(service.UUID)
@@ -131,11 +125,13 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
+    
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic, error error: NSError?){
         if error != nil{
             print("Characteristic error")
             print(error)
         }
+
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {

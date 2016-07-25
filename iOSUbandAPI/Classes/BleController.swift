@@ -183,10 +183,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
-    func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
-        //print("Updated")
-        //print(error)
-    }
     
     
     

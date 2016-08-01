@@ -21,6 +21,21 @@ class UBandAPITester: UBandAPIDelegate{
     
     //Settings
     
+    func preferredUserAge(uBand: UBandAPI) -> Int? {
+        let age = 22
+        return age
+    }
+    
+    func preferredUserWeight(uBand: UBandAPI) -> Float? {
+        let weightKilo = Float(51.4)
+        return weightKilo
+    }
+    
+    func preferredUserGender(uBand: UBandAPI) -> Gender? {
+        return Gender.Woman
+    }
+    
+    
     func didDiscoveredUBandPeripheral(uBand: UBandAPI, uBandPeripheral: CBPeripheral) {
         // do something UBand Developer
         //return false
@@ -34,7 +49,7 @@ class UBandAPITester: UBandAPIDelegate{
     
     
     //Api methods
-    func didReceiveHeartRateData(uBand: UBandAPI, heartRate: UInt) {
+    func didReceiveHeartRateData(uBand: UBandAPI, heartRate: Int) {
         // do something uBand developer
     }
     

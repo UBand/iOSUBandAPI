@@ -12,7 +12,7 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     
     var central : CBCentralManager!
     var uband : CBPeripheral!
-    var bpm:UInt = 0
+    var bpm:Int = 0
     var ubandApi : UBandAPI!
     
     let DEVICE_NAME = "U-Band"
@@ -36,7 +36,6 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     }
     
     func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
-        //print(peripheral.name)
         if let _ = peripheral.name {
             if (peripheral.name?.rangeOfString("^U-Band.*",options: .RegularExpressionSearch)) != nil{
                     ubandApi.addDiscoveredUBandPeripheral(peripheral)
@@ -57,6 +56,12 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
     func centralManager(central: CBCentralManager, didFailToConnectPeripheral peripheral: CBPeripheral, error: NSError?) {
         //print(error)
         ubandApi.notifyPeripheralConnectionStatus(false,error:error)
+    }
+    
+    func centralManager(central: CBCentralManager!, didRetrieveConnectedPeripherals peripherals: [AnyObject]!) {
+        for _ in peripherals{
+            //print(peripheral.description)
+        }
     }
     
     func peripheral(peripheral: CBPeripheral, didDiscoverServices error: NSError?) {
@@ -125,13 +130,11 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
-    
-    func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic, error error: NSError?){
+    func peripheral(peripheral: CBPeripheral, didUpdateNotificationStateForCharacteristic characteristic: CBCharacteristic, error: NSError?){
         if error != nil{
             print("Characteristic error")
             print(error)
         }
-
     }
     
     func peripheral(peripheral: CBPeripheral, didUpdateValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
@@ -183,6 +186,10 @@ class BleController: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
+    func peripheral(peripheral: CBPeripheral, didWriteValueForCharacteristic characteristic: CBCharacteristic, error: NSError?) {
+        //print("Updated")
+        //print(error)
+    }
     
     
     

@@ -6,8 +6,13 @@
 //  Copyright © 2016 Hunabsys. All rights reserved.
 //
 
-enum TemperatureUnit:Int {
+public enum TemperatureUnit:Int {
     case Fahrenheit
     case Celsius
     case Kelvin
+}
+
+public enum Gender:Int{
+    case Woman
+    case Men
 }

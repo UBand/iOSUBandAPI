@@ -17,6 +17,46 @@ public protocol UBandAPIDelegate:class{
     
     //API Settings
     
+    /**
+     
+     Method to specify Age of the UBand's user
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     - Receive: The user's age as an Int
+     
+     */
+    
+    func preferredUserAge(uBand: UBandAPI)->Int?
+
+    /**
+     
+     Method to specify Weight of the UBand's user
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     - Receive: The user's weight (Kilograms) as a Float
+     
+     */
+    
+    func preferredUserWeight(uBand: UBandAPI)->Float?
+    
+    /**
+     
+     Method to specify Gender of the UBand's user
+     
+     
+     - Parameter uBand: An UBandAPI object.
+     
+     - Receive: The user's weight (Kilograms) as a Float
+     
+     */
+    
+    func preferredUserGender(uBand: UBandAPI)->Gender?
+
+    
     //API Methods
     
     
@@ -70,11 +110,11 @@ public protocol UBandAPIDelegate:class{
      
      - Parameter uBand: An UBandAPI object.
      
-     - Parameter heartRate: An unsigned integer with the value received.
+     - Parameter heartRate: An integer with the value received.
      
      */
     
-    func didReceiveHeartRateData(uBand: UBandAPI, heartRate:UInt)
+    func didReceiveHeartRateData(uBand: UBandAPI, heartRate:Int)
     
     /**
      
@@ -168,10 +208,15 @@ public protocol UBandAPIDelegate:class{
 }
 
 public extension UBandAPIDelegate{
+    //Settings
+    func preferredUserAge(uBand: UBandAPI)->Int?{return 0}
+    func preferredUserWeight(uBand: UBandAPI)->Float?{return 0}
+    func preferredUserGender(uBand: UBandAPI)->Gender?{return Gender.Men}
+    //Api Methods
     func didReceiveConnectionStatus(uBand: UBandAPI,success:Bool,error: NSError?){}
     func didDisconnectUBand(uBand: UBandAPI){}
     func didDiscoveredUBandPeripheral(uBand: UBandAPI,uBandPeripheral:CBPeripheral){}
-    func didReceiveHeartRateData(uBand: UBandAPI, heartRate:UInt){}
+    func didReceiveHeartRateData(uBand: UBandAPI, heartRate:Int){}
     func didReceiveGyroscopeData(uBand: UBandAPI, x:Float,y:Float,z:Float){}
     func didReceiveTemperatureData(uBand: UBandAPI,temperature:Float){}
     func didReceiveBatteryLevelData(uBand: UBandAPI,batteryLevel:Int){}

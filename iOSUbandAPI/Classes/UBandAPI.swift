@@ -19,23 +19,38 @@ public class UBandAPI{
     var temperatureUnit:TemperatureUnit?
     var selectedUBand:CBPeripheral?
     var uBandPeripherals:[CBPeripheral]=[]
+    var countingCalories:Bool=true
+    var caloriesCounter = 0
+    var userGender:Gender?
+    var userWeight:Float?
+    var userAge:Int?
+    var userHeartRateAvg:Float?=0
+    var oldBPM:Int?=0
+    var recordingCaloriesTimer:NSDate?
+    var contBPMRecs = 0
     
     var bleController:BleController{
         return _bleController
     }
     
-    public init(){
-        
+    public init(d:UBandAPIDelegate ){
+        self.delegate = d
         self._bleController = BleController(ubandApi: self)
         self.temperatureUnit = TemperatureUnit.Celsius
-        
+        self.userGender = delegate?.preferredUserGender(self)
+        self.userWeight = (delegate?.preferredUserWeight(self))! * Float(2.20462) // 1Kg equal 2.20642 Libs
+        self.userAge = delegate?.preferredUserAge(self)
         //Set up the uband api with the preferred specified settings
         
     }
     
-    func setHeartRateData(obtainedHeartRate: UInt){
+    func setHeartRateData(obtainedHeartRate: Int){
+        if(countingCalories){
+            setNewHeartRateAverage(obtainedHeartRate)
+        }
         delegate?.didReceiveHeartRateData(self, heartRate: obtainedHeartRate)
         //Other logic related to heart rate
+
     }
     
     func setGyroscopeData(obtainedX: Float,obtainedY:Float,obtainedZ:Float){
@@ -94,17 +109,66 @@ public class UBandAPI{
         delegate?.didDisconnectUBand(self)
     }
     
+    // Public Methods to UBand's developer
+    
     public func connectToUBand(uBand:CBPeripheral){
         self.selectedUBand = uBand
         self._bleController.connectToUbandPeripheral(selectedUBand!)
     }
     
-    //func connectToAvailableUBands(){
-    //    self.selectedUBand = delegate?.connectToAvailableUBands(self, availableUBands: uBandPeripherals)
-    //    self._bleController.connectToUbandPeripheral(selectedUBand!)
-    //}
+    public func startCountingCalories(){
+        countingCalories = true
+        recordingCaloriesTimer = NSDate()
+    }
     
+    public func stopCountingCalories(){
+        countingCalories = false
+    }
     
+    public func setNewHeartRateAverage(currentBPM:Int){
+        contBPMRecs+=1
+        var newHeartRateAvg:Float = 0
+        if contBPMRecs == 1{
+            oldBPM = currentBPM
+            userHeartRateAvg = Float(currentBPM)
+            return
+        }
+        if(contBPMRecs<3){
+             newHeartRateAvg = Float(Float(oldBPM!+currentBPM)/Float(contBPMRecs))
+        }else{
+             newHeartRateAvg = Float(userHeartRateAvg!*Float(contBPMRecs-1)+Float(currentBPM))/Float(contBPMRecs)
+        }
+        userHeartRateAvg = newHeartRateAvg
+    }
     
+    public func getBurnedCalories()->Float{
+        //FORMULA: http://fitnowtraining.com/2012/01/formula-for-calories-burned/
+        let endCaloriesTimer = NSDate()
+        let minutes = Float(endCaloriesTimer.timeIntervalSinceDate(recordingCaloriesTimer!)/60)
+        
+        var ageFactor:Float = 0
+        var weightFactor:Float = 0
+        var heartRateFactor:Float = 0
+        var minusValue:Float = 0
+        if(userGender == Gender.Men){
+            ageFactor = 0.2017
+            weightFactor =  0.09036
+            heartRateFactor = 0.6309
+            minusValue = 55.0969
+        }
+        else{
+            ageFactor = 0.074
+            weightFactor =  0.05741
+            heartRateFactor = 0.4472
+            minusValue =  20.4022
+        }
+        
+        let userAgeSum = Float(userAge!)*ageFactor
+        let userWeightSum = Float(userWeight!) * weightFactor
+        let userHeartRateSum = Float(userHeartRateAvg!) * heartRateFactor
+        
+        let caloriesCounter = (userAgeSum-userWeightSum+userHeartRateSum-minusValue)*minutes/4.184
+        return caloriesCounter
+    }
     
 }

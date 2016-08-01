@@ -123,6 +123,7 @@ public class UBandAPI{
     
     public func stopCountingCalories(){
         countingCalories = false
+        caloriesCounter = 0
     }
     
     public func setNewHeartRateAverage(currentBPM:Int){
